@@ -1,103 +1,90 @@
-# Batch 02 · Day 06 — AI Product Hackathon
+# AN Sức khỏe
 
-> SPEC → Prototype → Demo. Hôm nay không có bài giảng mới — hôm nay chứng minh: SPEC là giả thuyết, prototype là bằng chứng, demo là thuyết phục.
+> Chatbot hỗ trợ đánh giá triệu chứng ban đầu, xác định mức độ nguy hiểm và đưa ra lời khuyên an toàn dựa trên flow triage rõ ràng.
 
----
+## 1. Tổng quan dự án
 
-## Cách nộp bài
+AN Sức khỏe là sản phẩm chăm sóc sức khỏe hướng tới người dùng cần:
+- kiểm tra triệu chứng một cách nhanh chóng,
+- hiểu mức độ nguy hiểm của tình trạng hiện tại,
+- nhận khuyến nghị rõ ràng như theo dõi tại nhà, khám bác sĩ, hoặc gọi cấp cứu.
 
-**Đại diện nhóm tạo MỘT repo nhóm**, đặt tên:
+Dự án lấy cảm hứng từ các ứng dụng symptom assessment thực tế nhưng được tối giản cho demo hackathon: chỉ tập trung vào flow quan trọng nhất, nhanh, dễ hiểu, và có độ an toàn cao.
 
+## 2. Điểm mạnh so với sản phẩm thực tế
+
+Các ứng dụng y tế thực tế như Ada Health thường ưu tiên 3 yếu tố:
+- flow hỏi từng bước,
+- triage rõ ràng theo mức độ nguy hiểm,
+- giao diện không gây overload cho người dùng.
+
+AN Sức khỏe kế thừa đúng nguyên tắc đó nhưng bổ sung thêm:
+- xác nhận lại thông tin AI đã hiểu,
+- hiển thị mức độ rủi ro rõ ràng,
+- có fallback logic nếu AI không chắc chắn,
+- luôn có cảnh báo an toàn và disclaimer.
+
+Điểm khác biệt lớn là: sản phẩm không chỉ "chat AI" mà có cấu trúc triage và hành động rõ ràng, rất phù hợp cho demo và có tính khả thi khi mở rộng.
+
+## 3. Luồng demo
+
+1. Người dùng nhập triệu chứng bằng ngôn ngữ tự nhiên.
+2. Hệ thống xác nhận triệu chứng đã hiểu.
+3. Hỏi tối thiểu 1–3 câu để làm rõ tình trạng.
+4. Đánh giá low / medium / high risk.
+5. Gợi ý hành động phù hợp:
+   - theo dõi tại nhà,
+   - gặp bác sĩ trong 24h,
+   - gọi cấp cứu ngay.
+
+## 4. Công nghệ sử dụng
+
+- Frontend: React + Vite
+- UI animation: Framer Motion
+- Backend: Python
+- AI provider: Gemini / provider abstraction
+- Design: single-flow symptom assessment, mobile-friendly
+
+## 5. Kiến trúc hệ thống
+
+- Frontend render giao diện triage và hiển thị kết quả
+- Backend xử lý hội thoại, tool-calling và model orchestration
+- Provider layer cho phép thay đổi model mà không phá app
+- Fallback rule-based engine để đảm bảo app không chết khi AI lỗi
+- Transcript logging để review và debug các lượt demo
+
+## 6. Tại sao đây là sản phẩm đáng xem
+
+- Flow demo rõ ràng, không dài dòng
+- Dễ hiểu với người xem vì ai cũng biết mục tiêu của app
+- Thể hiện được khả năng AI trong thực tế, không chỉ mock UI
+- Có tính an toàn và minh bạch, rất quan trọng trong y tế
+- Có khả năng mở rộng sang đặt lịch khám, đọc bệnh nền, gợi ý cơ sở y tế
+
+## 7. Cách chạy local
+
+Frontend:
+
+```bash
+cd codebase
+npm install
+npm run dev
 ```
-Day06-Lop-NhomXX
+
+Backend:
+
+```bash
+cd codebase/backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python server.py
 ```
 
-Ví dụ: `Day06-C401-Nhom03`
+## 8. Kết luận
 
-- **README của repo nhóm phải liệt kê đủ thành viên** — mỗi người gồm **mã học viên + họ và tên**.
-- Đại diện nhóm nộp **link repo** lên LMS. **Hạn nộp: 23:59 ngày 04/06/2026.**
-- Mỗi thành viên cần **ít nhất một commit thực chất** trong repo (không commit = mất điểm cá nhân).
-
-### Cấu trúc repo nhóm
-
-```
-Day06-Lop-NhomXX/
-├── README.md        ← Danh sách thành viên (mã HV + họ tên) + mô tả ngắn sản phẩm
-├── spec/            ← SPEC sản phẩm (xem hướng dẫn trong spec/)
-└── codebase/        ← Toàn bộ code prototype (xem hướng dẫn trong codebase/)
-```
+AN Sức khỏe là một AI health assistant tập trung vào triage triệu chứng, UX đơn giản và an toàn. Nó không cố làm “AI y khoa hoàn chỉnh”, mà tập trung vào việc chứng minh một trải nghiệm khả thi, rõ ràng và có giá trị trong thực tế.
 
 ---
 
-## Lịch ngày 06 — 04/06/2026
-
-| Giờ | Mốc | Cần đạt |
-|-----|-----|---------|
-| Sáng | Build | Bắt đầu từ SPEC nhẹ đã làm ở Day 5 |
-| **11:00** | Checkpoint 1 | **Show được ít nhất mockup/prototype chạy được** |
-| **13:00** | Checkpoint 2 | **Lắp được AI vào ít nhất 1 flow** |
-| **15:30** | Checkpoint 3 | **Chuẩn bị xong tài liệu demo + slide** |
-| **16:00** | Demo round | Trình bày trong zone, 10 phút/nhóm |
-
----
-
-## Tracks
-
-Mỗi nhóm chọn một lĩnh vực, lấy một app thật trong đó để soi và cải tiến:
-
-| Track | App thật gợi ý |
-|-------|----------------|
-| **Learning OS** (Vin AI Thực Chiến) | LMS khóa học, Discord lớp |
-| **Travel & Hospitality** | Vinpearl, Sun World / SunGroup |
-| **Food & Local Delivery** | ShopeeFood, GrabFood, BeFood, Xanh SM Ngon |
-| **Personal Finance** | MoMo, ZaloPay, app ngân hàng |
-| **Healthcare** | Vinmec, Long Châu, Pharmacity |
-
-> Các nhóm **cùng track** ngồi **cùng một zone** khi demo.
-
----
-
-## Kỳ vọng mỗi demo
-
-1. **Product Canvas** — giới thiệu ý tưởng và nỗi đau (painpoint) của người dùng.
-2. **Demo full luồng end-to-end** — show cả happy case lẫn error case.
-3. **AI chạy thật trong ít nhất 1 flow** — không chỉ mockup tĩnh.
-
----
-
-## Demo round (16:00)
-
-- Mỗi nhóm **10 phút** (≈ 5 phút trình bày + 5 phút Q&A).
-- Các nhóm khác **phản biện, đặt câu hỏi**.
-- **Đánh giá chéo qua form**: thành viên các nhóm khác chấm điểm.
-- **Tổng kết**: nhóm điểm cao nhất mỗi zone được **bonus**; còn thời gian thì các nhóm điểm cao **present trước cả lớp**; giảng viên đánh giá.
-
-Chi tiết luật chơi + cách chấm: [`hackathon-rules.md`](hackathon-rules.md)
-
----
-
-## Chấm điểm (Day 5 + Day 6 = 100 điểm)
-
-| Hạng mục | Điểm |
-|----------|------|
-| SPEC | 25 |
-| Prototype | 15 |
-| Demo Day | 25 |
-| Bài tập UX (Day 5) | 10 |
-| Phản ánh cá nhân (reflection) | 25 |
-
-**Điều kiện chặn:** prototype không có lời gọi AI thật → giới hạn 4/10 · không có commit → mất điểm cá nhân · không giải thích được phần mình khi bị hỏi → 0 điểm demo cá nhân.
-
----
-
-## Tài liệu trong repo này
-
-| Folder / file | Nội dung |
-|---------------|----------|
-| [`hackathon-rules.md`](hackathon-rules.md) | Luật chơi, lịch, demo round, cách chấm |
-| [`spec/`](spec/) | Hướng dẫn viết SPEC sản phẩm (nối tiếp SPEC nhẹ Day 5) |
-| [`codebase/`](codebase/) | Yêu cầu nộp code prototype |
-
----
-
-*Batch 02 · Ngày 06 — VinUni A20 · AI Thực Chiến · 2026*
+AN Sức khỏe — lightweight, explainable, and demo-ready.
